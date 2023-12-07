@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>Super Chat💬</h1>
+        <h1>Small Talk💬</h1>
         {user && <SignOut />}
       </header>
       <section>{user ? <ChatRoom /> : <SignIn />}</section>
