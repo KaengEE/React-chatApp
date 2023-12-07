@@ -112,14 +112,12 @@ li {
 }
 
 p {
-  max-width: 500px;
+  max-width: auto;
   margin-bottom: 12px;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
   position: relative;
-  display: flex;
-  justify-content: center;
   color: white;
   text-align: center;
 }
