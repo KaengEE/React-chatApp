@@ -2,10 +2,11 @@ import "./App.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, googleAuth } from "./firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
+import ChatRoom from "./chatRoom";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
-  console.log(user);
+  //console.log(user);
 
   if (loading) {
     return (
@@ -27,7 +28,7 @@ function App() {
         <h1>Super Chat💬</h1>
         {user && <SignOut />}
       </header>
-      <section>{user ? <div>채팅룸</div> : <SignIn />}</section>
+      <section>{user ? <ChatRoom /> : <SignIn />}</section>
     </div>
   );
 }
