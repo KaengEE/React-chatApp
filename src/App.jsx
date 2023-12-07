@@ -6,7 +6,7 @@ import ChatRoom from "./chatRoom";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
-  //console.log(user);
+  console.log(user);
 
   if (loading) {
     return (

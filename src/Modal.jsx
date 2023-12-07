@@ -1,5 +1,5 @@
-export const Modal = ({ setModalOpen, userId }) => {
-  console.log(userId);
+export const Modal = ({ setModalOpen, userInfo }) => {
+  //console.log(userInfo);
 
   //창닫기
   const closeModal = () => {
@@ -12,16 +12,20 @@ export const Modal = ({ setModalOpen, userId }) => {
         <button onClick={closeModal} className="modal-close">
           X
         </button>
-        <h3>유저정보</h3>
-        {userId && (
+        <h3>유저 정보</h3>
+        {userInfo && (
           <div className="modal-content">
             <img
               className="modal-img"
-              src={"https://api.adorable.io/avatars/23/abott@adorable.png"}
+              src={
+                userInfo.photoURL ||
+                "https://api.adorable.io/avatars/23/abott@adorable.png"
+              }
             />
-            <p>이름: </p>
-            <p>아이디: </p>
-            <p>uid: {userId}</p>
+            <div className="userInfo">
+              <p>이름: {userInfo.displayName} </p>
+              <p>아이디: {userInfo.email}</p>
+            </div>
           </div>
         )}
       </div>

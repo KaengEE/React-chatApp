@@ -18,25 +18,25 @@ function ChatRoom() {
   // 모달 상태 추가
   const [modalOpen, setModalOpen] = useState(false);
   // 전달정보
-  const [userId, setUserId] = useState();
+  const [userInfo, setUserInfo] = useState();
 
   const messagesRef = collection(db, "messages"); // messages 컬렉션
   const q = query(messagesRef, orderBy("createdAt"), limit(25)); // createdAt으로 정렬하고 최대 25개 출력
   const [messages] = useCollectionData(q); // 실시간으로 메시지 가져오기
 
   // 모달창
-  const showModal = (userId) => {
+  const showModal = (userInfo) => {
     setModalOpen(true);
-    setUserId(userId);
+    setUserInfo(userInfo);
     //console.log("모달창", modalOpen);
-    //console.log(userId);
+    //console.log(userInfo);
   };
 
   // 메시지 전송
   const sendMessage = async (e) => {
     e.preventDefault();
-    console.log(auth.currentUser); // 유저정보
-    const { uid, photoURL, displayName } = auth.currentUser; // 현재 유저정보 가져옴
+    //console.log(auth.currentUser); // 유저정보
+    const { uid, photoURL, displayName, email } = auth.currentUser; // 현재 유저정보 가져옴
 
     // 저장
     await addDoc(messagesRef, {
@@ -45,6 +45,7 @@ function ChatRoom() {
       uid,
       photoURL,
       displayName,
+      email,
     });
     setFormValue("");
   };
@@ -78,19 +79,19 @@ function ChatRoom() {
         </button>
       </form>
       {/* 모달창 */}
-      {modalOpen && <Modal setModalOpen={setModalOpen} userId={userId} />}
+      {modalOpen && <Modal setModalOpen={setModalOpen} userInfo={userInfo} />}
     </>
   );
 }
 
 // 채팅메시지함수
 function ChatMessage({ message, showModal }) {
-  const { text, uid, photoURL, displayName } = message;
+  const { text, uid, photoURL, displayName, createdAt } = message;
   // 본인글(sent) 상대방글(received) 구분
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   const showInfo = () => {
-    showModal(uid);
+    showModal(message);
   };
 
   return (
@@ -106,6 +107,14 @@ function ChatMessage({ message, showModal }) {
           }
         />
         <p>{text}</p>
+      </div>
+      {/* 작성시간 */}
+      <div className={`message ${messageClass}`}>
+        <span className="createAt">
+          {new Date(
+            createdAt.seconds * 1000 + createdAt.nanoseconds / 1e6
+          ).toLocaleTimeString("ko-KO")}
+        </span>
       </div>
     </>
   );
