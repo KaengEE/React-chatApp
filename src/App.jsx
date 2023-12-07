@@ -2,7 +2,7 @@ import "./App.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, googleAuth } from "./firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
-import ChatRoom from "./chatRoom";
+import ChatRoom from "./ChatRoom";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
