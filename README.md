@@ -25,4 +25,4 @@ firebase를 사용한 React 프로젝트로
 
 ## 배포링크
 
-<a href="">Small Talk</a>
+<a href="https://smallchat-kaengee.netlify.app/">Small Talk</a>
