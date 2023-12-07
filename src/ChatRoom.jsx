@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { auth, db } from "./firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Modal } from "./Modal";
+import moment from "moment/moment";
 
 function ChatRoom() {
   const dummy = useRef(); //html을 선택하기 위한 객체
@@ -87,12 +88,15 @@ function ChatRoom() {
 // 채팅메시지함수
 function ChatMessage({ message, showModal }) {
   const { text, uid, photoURL, displayName, createdAt } = message;
+  //작성시간출력 : 랜더링오류생겨서 ? 넣음
+  const createTime = moment(createdAt?.toDate()).format("HH시mm분 작성됨");
   // 본인글(sent) 상대방글(received) 구분
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   const showInfo = () => {
     showModal(message);
   };
+  //console.log(createTime);
 
   return (
     <>
@@ -109,13 +113,11 @@ function ChatMessage({ message, showModal }) {
         <p>{text}</p>
       </div>
       {/* 작성시간 */}
-      <div className={`message ${messageClass}`}>
-        <span className="createAt">
-          {new Date(
-            createdAt.seconds * 1000 + createdAt.nanoseconds / 1e6
-          ).toLocaleTimeString("ko-KO")}
-        </span>
-      </div>
+      {createdAt && (
+        <div className={`message ${messageClass}`}>
+          <span className="createAt">{createTime}</span>
+        </div>
+      )}
     </>
   );
 }
