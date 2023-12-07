@@ -22,7 +22,7 @@ function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
     //console.log(auth.currentUser); //유저정보
-    const { uid, photoURL } = auth.currentUser; //현재 유저정보 가져옴
+    const { uid, photoURL, displayName } = auth.currentUser; //현재 유저정보 가져옴
 
     //저장
     await addDoc(messagesRef, {
@@ -30,6 +30,7 @@ function ChatRoom() {
       createdAt: serverTimestamp(),
       uid,
       photoURL,
+      displayName,
     });
     setFormValue("");
   };
@@ -66,12 +67,15 @@ function ChatRoom() {
 
 //채팅메시지함수
 function ChatMessage({ message }) {
-  const { text, uid, photoURL } = message;
+  const { text, uid, photoURL, displayName } = message;
   //본인글(sent) 상대방글(received) 구분
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   return (
     <>
+      <div className={`message ${messageClass}`}>
+        <span className="displayName">{displayName}</span>
+      </div>
       <div className={`message ${messageClass}`}>
         <img
           src={
